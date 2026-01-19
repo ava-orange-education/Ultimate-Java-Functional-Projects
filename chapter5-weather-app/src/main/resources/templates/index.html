@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Weather Dashboard</title>
+</head>
+<body>
+<h1>Weather Information</h1>
+
+<form th:action="@{/weather}" method="get">
+    <label for="city">Enter City:</label>
+    <input type="text" name="city" id="city"/>
+    <button type="submit">Get Weather</button>
+</form>
+
+<div th:if="${weatherList != null}">
+    <h2>Results:</h2>
+    <table border="1">
+        <tr>
+            <th>City</th>
+            <th>Temperature</th>
+            <th>Description</th>
+            <th>Timestamp</th>
+        </tr>
+        <tr th:each="weather : ${weatherList}">
+            <td th:text="${weather.city}"></td>
+            <td th:text="${weather.temperature}"></td>
+            <td th:text="${weather.description}"></td>
+            <td th:text="${weather.timestamp}"></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Create weather table -->
+    <changeSet id="1" author="developer">
+        <createTable tableName="weather">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(255)"/>
+            <column name="temperature" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="timestamp" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Insert initial data -->
+    <changeSet id="2" author="developer">
+        <insert tableName="weather">
+            <column name="city" value="New York"/>
+            <column name="temperature" value="22C"/>
+            <column name="description" value="Sunny"/>
+            <column name="timestamp" valueDate="2024-06-15T05:00:00"/>
+        </insert>
+        <insert tableName="weather">
+            <column name="city" value="Los Angeles"/>
+            <column name="temperature" value="25C"/>
+            <column name="description" value="Partly Cloudy"/>
+            <column name="timestamp" valueDate="2024-06-15T06:00:00"/>
+        </insert>
+    </changeSet>
+
+    <!-- Add index on city -->
+    <changeSet id="3" author="developer">
+        <createIndex indexName="idx_city" tableName="weather">
+            <column name="city"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Add humidity column with rollback -->
+    <changeSet id="4" author="developer">
+        <addColumn tableName="weather">
+            <column name="humidity" type="VARCHAR(10)"/>
+        </addColumn>
+        <rollback>
+            <dropColumn tableName="weather" columnName="humidity"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
